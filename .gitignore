@@ -97,3 +97,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# VS code
+.vscode
+
+# API secrets
+*.json
