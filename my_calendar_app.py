@@ -44,7 +44,7 @@ def get_credentials():
         print('Storing credentials to ' + credential_path)
     return credentials
 
-def main():
+def get_event_amount(search=None):
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
@@ -53,11 +53,16 @@ def main():
     start_of_month = datetime.datetime(now.year, now.month, 1).isoformat() + 'Z'
     end_of_month = datetime.datetime(now.year, now.month, calendar.monthrange(now.year, now.month)[1]).isoformat() + 'Z'
 
-    eventsResult = service.events().list(
-        calendarId='primary', timeMin=start_of_month, timeMax=end_of_month, singleEvents=True, orderBy='startTime', q='Psychoanalyse').execute()
+    if search is not None:
+        eventsResult = service.events().list(
+            calendarId='primary', timeMin=start_of_month, timeMax=end_of_month, singleEvents=True, orderBy='startTime', q=search).execute()
+    else:
+        eventsResult = service.events().list(
+            calendarId='primary', timeMin=start_of_month, timeMax=end_of_month, singleEvents=True, orderBy='startTime', q="").execute()
     events = eventsResult.get('items', [])
-    print(len(events))
-
+    
+    return len(events)
 
 if __name__ == '__main__':
-    main()
+    this = get_event_amount("Psychoanalyse")
+    print(this)
