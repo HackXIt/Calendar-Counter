@@ -64,5 +64,5 @@ def get_event_amount(search=None):
     return len(events)
 
 if __name__ == '__main__':
-    this = get_event_amount("Psychoanalyse")
+    this = get_event_amount("YOUR_EVENT")
     print(this)
